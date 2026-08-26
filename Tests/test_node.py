@@ -1,12 +1,14 @@
 import pytest
+import math
 from src.vecs.hnsw.node import Node, distance
 
 
 def test_node_comprehensive():
     assert distance([1.0, 2.0, 3.0], [1.0, 2.0, 3.0]) == 0.0
-    assert distance([1.0, 2.0], [4.0, 5.0]) == (1-4)**2 + (2-5)**2
-    assert distance([5.0], [2.0]) == 9.0
-    assert distance([-1.0, -2.0], [1.0, 2.0]) == (-1-1)**2 + (-2-2)**2
+    assert math.isclose(distance([1.0, 2.0], [-1.0, -2.0]), 2.0)
+    assert distance([1.0, 0.0], [0.0, 1.0]) == 1.0
+    assert math.isclose(distance([1.0, 2.0], [2.0, 4.0]), 0.0, abs_tol=1e-10)
+    assert math.isclose(distance([-1.0, -2.0], [1.0, 2.0]), 2.0)
 
     node1 = Node(
         vector=[1.0, 2.0, 3.0],
